@@ -34,7 +34,7 @@ stages:
         command: 'build'
         arguments: '--no-restore --configuration $(buildConfiguration)'
 - stage: 'Test'
-  displayname: 'Test the web application'
+  displayName: 'Test the web application'
   jobs:
   - job: 'Test'
     displayname: 'Test job'
