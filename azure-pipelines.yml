@@ -37,7 +37,7 @@ stages:
   displayName: 'Test the web application'
   jobs:
   - job: 'Test'
-    displayname: 'Test job'
+    displayName: 'Test job'
     steps:
     - task: DotNetCoreCLI@2
       displayName: 'Build the project - $(buildConfiguration)'
