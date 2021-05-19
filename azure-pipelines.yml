@@ -36,6 +36,8 @@ stages:
         scannerMode: 'MSBuild'
         projectKey: 'Prashanth-501_SimpleAPI'
         projectName: 'SimpleAPI'
+      
+    - task: SonarCloudAnalyze@1
     - task: DotNetCoreCLI@2
       displayName: 'Build the project - $(buildConfiguration)'
       inputs:
@@ -61,7 +63,7 @@ stages:
         publishTestResults: true
         projects: '$(System.DefaultWorkingDirectory)/**/*Test/*.csproj'
     
-    - task: SonarCloudAnalyze@1
+    
 
     - task: SonarCloudPublish@1
       inputs:
