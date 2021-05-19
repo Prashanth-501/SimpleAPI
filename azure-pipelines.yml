@@ -33,6 +33,26 @@ stages:
       inputs:
         command: 'build'
         arguments: '--no-restore --configuration $(buildConfiguration)'
+- stage: 'Test'
+  displayname: 'Test the web application'
+  jobs:
+  - job: 'Test'
+    displayname: 'Test job'
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        arguments: '--configuration $(buildConfiguration)'
+        projects: '$(System.DefaultWorkingDirectory)/**/*Test/*.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'Run unit tests - $(buildConfiguration)'
+      inputs:
+        command: 'test'
+        arguments: '--no-build --configuration $(buildConfiguration)'
+        publishTestResults: true
+        projects: '$(System.DefaultWorkingDirectory)/**/*Test/*.csproj'
+
         
 
       
