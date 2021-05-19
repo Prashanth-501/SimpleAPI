@@ -14,18 +14,18 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-schedules:
-- cron: '0 16 * * *'
-  displayName: Deploy every day at 4 P.M.
-  branches:
-    include:
-    - master
-  always: true 
+#schedules:
+#- cron: '0 16 * * *'
+#  displayName: Deploy every day at 4 P.M.
+#  branches:
+#    include:
+#    - master
+#  always: true 
 
 stages:
 - stage: 'Build'
   displayName: 'Build the web application'
-  condition: eq(variables['Build.Reason'], 'Schedule')
+ # condition: eq(variables['Build.Reason'], 'Schedule')
   jobs: 
   - job: 'Build'
     displayName: 'Build job'
@@ -56,7 +56,7 @@ stages:
 
 - stage: 'Test'
   displayName: 'Test the web application'
-  condition: eq(variables['Build.Reason'], 'Schedule')
+  #condition: eq(variables['Build.Reason'], 'Schedule')
   jobs:
   - job: 'Test'
     displayName: 'Test job'
@@ -75,7 +75,14 @@ stages:
         publishTestResults: true
         projects: '$(System.DefaultWorkingDirectory)/**/*Test/*.csproj'
     
-    
+- stage: 'Pre-Deploy'
+  displayName: 'Pre-deployment with quality gates'
+  jobs:
+  - job: 'pre-deploy'
+    displayName: 'pre-deploy job'
+    steps: 
+    - task:
+        
 
         
 
