@@ -29,7 +29,13 @@ stages:
       inputs:
         restoreSolution: '$(solution)'
     
-    
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'sonar service connection'
+        organization: 'prashanth-501'
+        scannerMode: 'MSBuild'
+        projectKey: 'Prashanth-501_SimpleAPI'
+        projectName: 'SimpleAPI'
     - task: DotNetCoreCLI@2
       displayName: 'Build the project - $(buildConfiguration)'
       inputs:
