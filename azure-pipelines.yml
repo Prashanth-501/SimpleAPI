@@ -54,6 +54,18 @@ stages:
     
     - task: SonarCloudAnalyze@1
 
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish the project - $(buildConfiguration)'
+      inputs:
+        command: 'publish'
+        projects: '**/*.csproj'
+        publishWebProjects: false
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        zipAfterPublish: true
+
+    - publish: '$(Build.ArtifactStagingDirectory)'
+      artifact: drop
+
 - stage: 'Test'
   displayName: 'Test the web application'
   #condition: eq(variables['Build.Reason'], 'Schedule')
@@ -75,17 +87,6 @@ stages:
         publishTestResults: true
         projects: '$(System.DefaultWorkingDirectory)/**/*Test/*.csproj'
     
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish the project - $(buildConfiguration)'
-      inputs:
-        command: 'publish'
-        projects: '**/*.csproj'
-        publishWebProjects: false
-        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-        zipAfterPublish: true
-
-    - publish: '$(Build.ArtifactStagingDirectory)'
-      artifact: drop
     
 - stage: 'Staging'
   displayName: 'Deploy to the staging environment'
