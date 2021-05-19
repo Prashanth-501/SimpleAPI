@@ -75,13 +75,26 @@ stages:
         publishTestResults: true
         projects: '$(System.DefaultWorkingDirectory)/**/*Test/*.csproj'
     
-- stage: 'Pre-Deploy'
-  displayName: 'Pre-deployment with quality gates'
-  jobs:
-  - job: 'pre-deploy'
-    displayName: 'pre-deploy job'
-    steps: 
-    - task:
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish the project - $(buildConfiguration)'
+      inputs:
+        command: 'publish'
+        projects: '**/*.csproj'
+        publishWebProjects: false
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        zipAfterPublish: true
+
+    - publish: '$(Build.ArtifactStagingDirectory)'
+      artifact: drop
+    
+#- stage: 'staging'
+#  displayName: 'Pre-deployment with quality gates'
+#  jobs:
+#  - job: 'pre-deploy'
+#    displayName: 'pre-deploy job'
+#    steps: 
+#    - task:
+        
         
 
         
