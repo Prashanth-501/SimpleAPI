@@ -29,7 +29,7 @@ stages:
       inputs:
         command: 'build'
         arguments: '--no-restore --configuration $(buildConfiguration)'
-        projects: '**/*.csproj'
+        
 
       
 
